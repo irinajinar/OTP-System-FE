@@ -141,7 +141,6 @@ function Login() {
           position="bottom-right"
           newestOnTop
           rtl={false}
-          pauseOnFocusLoss
         />
       </LoginInnerContainer>
     </LoginContainer>
