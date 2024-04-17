@@ -4,14 +4,13 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Input from "../components/Input";
 import styled from "styled-components";
+import logo from "../images/logo.jpg";
 
 function Register() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [telephoneNumber, setTelephoneNumber] = useState("");
-  const [address, setAddress] = useState("");
+  const [personalIdentificationNumber, setPersonalIdentificationNumber] =
+    useState("");
+  const [pin, setPin] = useState("");
 
   const options = {
     headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -21,67 +20,29 @@ function Register() {
 
   const registerHandler = (e) => {
     e.preventDefault();
-    axios
-      .post(
-        "http://localhost:8081/register",
-        {
-          firstName: `${firstName}`,
-          lastName: `${lastName}`,
-          telephoneNumber: `${telephoneNumber}`,
-          address: `${address}`,
-          email: `${email}`,
-          password: `${password}`,
-        },
-        options
-      )
-      .then((response) => {
-        console.log(response.data);
-        navigate("/login");
-      })
-      .catch((error) => console.log(error));
+    navigate("/login");
+    // axios
+    //   .post(
+    //     "http://localhost:8081/register",
+    //     {
+    //       email: `${email}`,
+    //       personalIdentificationNumber: `${personalIdentificationNumber}`,
+    //       pin: `${email}`,
+    //     },
+    //     options
+    //   )
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     navigate("/");
+    //   })
+    //   .catch((error) => console.log(error));
   };
 
   return (
     <RegisterContainer>
       <RegisterInnerContainer>
-        {/* <img src={logo} alt=""></img> */}
-        <h1>Register into CakeShop</h1>
-        <Input
-          id="registerFirstName"
-          type={"firstName"}
-          placeholder={"FirstName"}
-          value={firstName}
-          onChange={(e) => {
-            setFirstName(e.target.value);
-          }}
-        />
-        <Input
-          id="registerLastName"
-          type={"lastName"}
-          placeholder={"LastName"}
-          value={lastName}
-          onChange={(e) => {
-            setLastName(e.target.value);
-          }}
-        />
-        <Input
-          id="registertelephoneNumber"
-          type={"telephoneNumber"}
-          placeholder={"TelephoneNumber"}
-          value={telephoneNumber}
-          onChange={(e) => {
-            setTelephoneNumber(e.target.value);
-          }}
-        />
-        <Input
-          id="registeraddress"
-          type={"address"}
-          placeholder={"Address"}
-          value={address}
-          onChange={(e) => {
-            setAddress(e.target.value);
-          }}
-        />
+        <img src={logo} alt=""></img>
+        <h1>Register into OTP System</h1>
         <Input
           id="loginEmail"
           type={"email"}
@@ -91,17 +52,24 @@ function Register() {
             setEmail(e.target.value);
           }}
         />
-
         <Input
-          id="loginPassword"
-          type={"Password"}
-          placeholder={"Password"}
-          value={password}
+          id="personalIdentificationNumber"
+          type={"number"}
+          placeholder={"Personal Identification Number"}
+          value={personalIdentificationNumber}
           onChange={(e) => {
-            setPassword(e.target.value);
+            setPersonalIdentificationNumber(e.target.value);
           }}
         />
-
+        <Input
+          id="pin"
+          type={"number"}
+          placeholder={"PIN"}
+          value={pin}
+          onChange={(e) => {
+            setPin(e.target.value);
+          }}
+        />
         <Button onClick={registerHandler}>Register</Button>
         <div
           style={{

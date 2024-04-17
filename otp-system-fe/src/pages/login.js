@@ -5,6 +5,8 @@ import logo from "../images/logo.jpg";
 import Input from "../components/Input";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -25,25 +27,29 @@ function Login() {
     }
   }, []);
 
+  const notify = (msg) => toast(msg);
+
   const handleLogin = async () => {
-    axios
-      .post(
-        "http://localhost:8080/generate-temporary-pass",
-        {
-          email: `${email}`,
-          personalIdentificationNumber: `${personalIdentificationNumber}`,
-          pin: `${email}`,
-          temporaryPassword: `${email}`,
-        },
-        options
-      )
-      .then((response) => {
-        console.log(response.data);
-        localStorage.setItem("isLogged", true);
-        localStorage.setItem("userId", response.data.id);
-        navigate("/");
-      })
-      .catch((error) => console.log(error));
+    notify("temp pass");
+    // axios
+    //   .post(
+    //     "http://localhost:8080/generate-temporary-pass",
+    //     {
+    //       email: `${email}`,
+    //       personalIdentificationNumber: `${personalIdentificationNumber}`,
+    //       pin: `${email}`,
+    //       temporaryPassword: `${email}`,
+    //     },
+    //     options
+    //   )
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     notify("temp error");
+    //     localStorage.setItem("isLogged", true);
+    //     localStorage.setItem("userId", response.data.id);
+    //     navigate("/");
+    //   })
+    //   .catch((error) => console.log(error));
   };
 
   const generateTemporaryPassword = async () => {
@@ -60,6 +66,7 @@ function Login() {
     //   )
     //   .then((response) => {
     //     console.log(response.data);
+    //     notify(response.data);
     //     setPasswordGenerated(true);
     //   })
     //   .catch((error) => console.log(error));
@@ -129,6 +136,13 @@ function Login() {
         >
           <a href="/register">Don't have an account? Register</a>
         </div>
+        <ToastContainer
+          autoClose={50000}
+          position="bottom-right"
+          newestOnTop
+          rtl={false}
+          pauseOnFocusLoss
+        />
       </LoginInnerContainer>
     </LoginContainer>
   );

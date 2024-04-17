@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import Home from "./pages/home";
 
 const useStyles = makeStyles({
   gridContainer: {
@@ -21,7 +22,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/register" element={<Register />} exact></Route>
-          <Route path="/" element={<Login />} exact></Route>
+          <Route path="/login" element={<Login />} exact></Route>
+          <Route path="/" element={<Home />} exact></Route>
         </Routes>
       </Router>
     </div>
