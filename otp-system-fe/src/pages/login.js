@@ -129,7 +129,7 @@ function Login() {
             <Input
               id="Password"
               type={"Password"}
-              placeholder={"Password"}
+              placeholder={"Please insert the password received"}
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
