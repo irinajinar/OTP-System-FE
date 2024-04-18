@@ -21,16 +21,17 @@ function Login() {
     headers: { "Content-Type": "application/json; charset=utf-8" },
   };
 
-  useEffect(() => {
-    if (localStorage.getItem("isLogged") === "true") {
-      navigate("/");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem("isLogged") === "true") {
+  //     navigate("/");
+  //   }
+  // }, []);
 
   const notify = (msg) => toast(msg);
 
   const handleLogin = async () => {
-    notify("temp pass");
+    localStorage.setItem("isLogged", true);
+    navigate("/");
     // axios
     //   .post(
     //     "http://localhost:8080/generate-temporary-pass",
@@ -49,10 +50,16 @@ function Login() {
     //     localStorage.setItem("userId", response.data.id);
     //     navigate("/");
     //   })
-    //   .catch((error) => console.log(error));
+    //   .catch((error) =>
+    //   {
+    //     console.log(error);
+    //     notify(error.message);
+    //   }
+    // );
   };
 
   const generateTemporaryPassword = async () => {
+    notify("temp pass");
     setPasswordGenerated(true);
     // axios
     //   .post(
@@ -69,7 +76,12 @@ function Login() {
     //     notify(response.data);
     //     setPasswordGenerated(true);
     //   })
-    //   .catch((error) => console.log(error));
+    //   .catch((error) =>
+    //   {
+    //     console.log(error);
+    //     notify(error.message);
+    //   }
+    // );
   };
 
   return (
@@ -91,7 +103,7 @@ function Login() {
             />
             <Input
               id="personalIdentificationNumber"
-              type={"email"}
+              type={"number"}
               placeholder={"Personal Identification Number"}
               value={personalIdentificationNumber}
               onChange={(e) => {
@@ -100,9 +112,9 @@ function Login() {
             />
             <Input
               id="loginEmail"
-              type={"email"}
+              type={"number"}
               placeholder={"PIN"}
-              value={email}
+              value={pin}
               onChange={(e) => {
                 setPin(e.target.value);
               }}
