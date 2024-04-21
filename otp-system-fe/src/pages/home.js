@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import Button from "@material-ui/core/Button";
@@ -9,24 +9,19 @@ function Home() {
   const navigate = useNavigate();
 
   const signOut = () => {
-    localStorage.clear();
-    navigate("/login");
+    localStorage.removeItem("isLogged"); 
+    navigate("/login"); 
   };
-
-  useEffect(() => {
-    if (localStorage.getItem("isLogged") != "true") {
-      navigate("/login");
-    }
-  }, []);
 
   return (
     <HomeContainer>
-      <img src={logo} alt=""></img>
-      <div>Congrats</div>
+      <img src={logo} alt="Logo"></img>
+      <div>Congratulations! You are logged in.</div>
       <Button onClick={signOut}>Sign out</Button>
     </HomeContainer>
   );
 }
+
 export default Home;
 
 const HomeContainer = styled.div`

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import logo from "../images/logo.jpg";
@@ -10,78 +10,76 @@ import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [personalIdentificationNumber, setPersonalIdentificationNumber] =
-    useState("");
   const [pin, setPin] = useState("");
+  const [personalIdentificationNumber, setPersonalIdentificationNumber] = useState("");
+  const [temporaryPassword, setTemporaryPassword] = useState("");
   const [passwordGenerated, setPasswordGenerated] = useState(false);
-
+  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const options = {
     headers: { "Content-Type": "application/json; charset=utf-8" },
   };
 
-  // useEffect(() => {
-  //   if (localStorage.getItem("isLogged") === "true") {
-  //     navigate("/");
-  //   }
-  // }, []);
-
   const notify = (msg) => toast(msg);
 
-  const handleLogin = async () => {
-    localStorage.setItem("isLogged", true);
-    navigate("/");
-    // axios
-    //   .post(
-    //     "http://localhost:8080/generate-temporary-pass",
-    //     {
-    //       email: `${email}`,
-    //       personalIdentificationNumber: `${personalIdentificationNumber}`,
-    //       pin: `${email}`,
-    //       temporaryPassword: `${email}`,
-    //     },
-    //     options
-    //   )
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     notify("temp error");
-    //     localStorage.setItem("isLogged", true);
-    //     localStorage.setItem("userId", response.data.id);
-    //     navigate("/");
-    //   })
-    //   .catch((error) =>
-    //   {
-    //     console.log(error);
-    //     notify(error.message);
-    //   }
-    // );
+  const handleGeneratePassword = async () => {
+    try {
+      const response = await axios.post(
+        "https://localhost:7085/api/users/generate-temporary-password",
+        {
+          email: email,
+          personalIdentificationNumber: personalIdentificationNumber,
+          pin: pin,
+        },
+        options
+      );
+
+      if (response.status === 200) {
+        const generatedPassword = response.data;
+        notify(`Password: ${generatedPassword}`);
+        setTemporaryPassword(generatedPassword);
+        setPasswordGenerated(true);
+      } else {
+        notify("Error generating temporary password. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      notify("Error generating temporary password. Please try again.");
+    }
   };
 
-  const generateTemporaryPassword = async () => {
-    notify("temp pass");
-    setPasswordGenerated(true);
-    // axios
-    //   .post(
-    //     "http://localhost:8080/generate-temporary-password",
-    //     {
-    //       email: `${email}`,
-    //       personalIdentificationNumber: `${personalIdentificationNumber}`,
-    //       pin: `${email}`,
-    //     },
-    //     options
-    //   )
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     notify(response.data);
-    //     setPasswordGenerated(true);
-    //   })
-    //   .catch((error) =>
-    //   {
-    //     console.log(error);
-    //     notify(error.message);
-    //   }
-    // );
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(
+        "https://localhost:7085/api/users/login",
+        {
+          email: email,
+          personalIdentificationNumber: personalIdentificationNumber,
+          pin: pin,
+        },
+        options
+      );
+
+      if (response.status === 200) {
+        setPasswordGenerated(true);
+        notify("Login successful.");
+        setError("");
+      } else {
+        notify("Error logging in. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      notify("Error logging in. Please try again.");
+    }
+  };
+
+  const handleRedirectHomePage = async () => {
+    navigate("/");
+  };
+
+  const handleRegisterRedirect = () => {
+    navigate("/register");
   };
 
   return (
@@ -90,6 +88,7 @@ function Login() {
         <img src={logo} alt=""></img>
         <h1>Sign in to OTP System</h1>
         <p>otp-system.com</p>
+        {error && <ErrorText>{error}</ErrorText>}
         {!passwordGenerated && (
           <div>
             <Input
@@ -97,67 +96,59 @@ function Login() {
               type={"email"}
               placeholder={"Email"}
               value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <Input
               id="personalIdentificationNumber"
               type={"number"}
               placeholder={"Personal Identification Number"}
               value={personalIdentificationNumber}
-              onChange={(e) => {
-                setPersonalIdentificationNumber(e.target.value);
-              }}
+              onChange={(e) => setPersonalIdentificationNumber(e.target.value)}
             />
             <Input
-              id="loginEmail"
-              type={"number"}
+              id="loginPin"
+              type={"password"}
               placeholder={"PIN"}
               value={pin}
-              onChange={(e) => {
-                setPin(e.target.value);
-              }}
+              onChange={(e) => setPin(e.target.value)}
             />
-            <Button onClick={generateTemporaryPassword}>
-              Generate temporary password
+            <Button onClick={handleLogin} style={{ backgroundColor: "#0a8d48", color: "white", marginTop: "10px" }}>
+              Validate your personal data
             </Button>
           </div>
         )}
         {passwordGenerated && (
-          <div>
+          <>
             <Input
-              id="Password"
-              type={"Password"}
+              id="temporaryPassword"
+              type={showPassword ? "text" : "password"}
               placeholder={"Please insert the password received"}
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              value={temporaryPassword}
+              onChange={(e) => setTemporaryPassword(e.target.value)}
             />
-            <Button onClick={handleLogin}>Login</Button>
-          </div>
+            <Button onClick={handleGeneratePassword} style={{ backgroundColor: "#0a8d48", color: "white", marginTop: "10px" }}>
+              Generate Password
+            </Button>
+            <Button onClick={() => setShowPassword(!showPassword)} style={{ backgroundColor: "#0a8d48", color: "white", marginTop: "10px" }}>
+              {showPassword ? "Hide Password" : "Show Password"}
+            </Button>
+            <Button onClick={handleRedirectHomePage} style={{ backgroundColor: "#0a8d48", color: "white", marginTop: "10px" }}>
+              Login
+            </Button>
+          </>
         )}
-        <div
-          style={{
-            display: "flex",
-            displayDirection: "row",
-            justifyContent: "space-between",
-            fontSize: "13px",
-          }}
-        >
-          <a href="/register">Don't have an account? Register</a>
+        <div>
+          <p>Don't have an account?</p>
+          <TextButton onClick={handleRegisterRedirect} style={{ color: "#0a8d48" }}>
+            Register
+          </TextButton>
         </div>
-        <ToastContainer
-          autoClose={50000}
-          position="bottom-right"
-          newestOnTop
-          rtl={false}
-        />
+        <ToastContainer autoClose={300000} position="bottom-right" newestOnTop rtl={false} />
       </LoginInnerContainer>
     </LoginContainer>
   );
 }
+
 export default Login;
 
 const LoginContainer = styled.div`
@@ -185,12 +176,23 @@ const LoginInnerContainer = styled.div`
   > div {
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
   }
+`;
 
-  > div > button {
-    margin-top: 25px;
-    text-transform: inherit !important;
-    background-color: #0a8d48 !important;
-    color: white;
+const ErrorText = styled.p`
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+`;
+
+const TextButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-top: 10px;
+  &:hover {
+    color: #0a8d48;
   }
 `;
