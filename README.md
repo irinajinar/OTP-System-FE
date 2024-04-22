@@ -6,7 +6,7 @@ This application contains three pages:
 - Register page: the user have to insert his email address, personal identification number and set a PIN
 
 <p align="center">
- <img src="https://github.com/irinajinar/OTP-System-FE/register-preview.png">
+ <img src="https://github.com/irinajinar/OTP-System-FE/blob/main/register-preview.png">
 </p>
 
 - Login: the user have to enter same credentials with which have been registered. If them are valid, the user will be able to press the Validate your personal data button and will be redirected to the next login phase. If the user press the Generate password button, the password will be generated and shown into the toast.
@@ -15,12 +15,12 @@ This application contains three pages:
 </p>
 
 <p align="center">
- <img src="https://github.com/irinajinar/OTP-System-FE/login-phase-two-preview.png">
+ <img src="https://github.com/irinajinar/OTP-System-FE/blob/main/login-phase-two-preview.png">
 </p>
 
 - Home:
 <p align="center">
- <img src="https://github.com/irinajinar/OTP-System-FE/home-preview.png">
+ <img src="https://github.com/irinajinar/OTP-System-FE/blob/main/home-preview.png">
 </p>
 
 ## 💽 Prerequisites
