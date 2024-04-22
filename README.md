@@ -10,13 +10,14 @@ This application contains three pages:
 </p>
 
 - Login: the user have to enter same credentials with which have been registered. If them are valid, the user will be able to press the Validate your personal data button and will be redirected to the next login phase. If the user press the Generate password button, the password will be generated and shown into the toast.
-⚙ Login phase one:
+
+* Login phase one:
 
 <p align="center">
  <img src="https://github.com/irinajinar/OTP-System-FE/blob/main/login-phase-one-preview.png">
 </p>
 
-⚙ Login phase two:
+* Login phase two:
 
 <p align="center">
  <img src="https://github.com/irinajinar/OTP-System-FE/blob/main/login-phase-two-preview.png">
