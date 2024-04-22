@@ -1,5 +1,4 @@
-# OTP-System-FE
-# 💻 Shop Management Application
+# 💻 OTP-System-FE
 The app’s main purpose is to create a safe one time password system. 
 
 ## 📷 Preview  
@@ -12,8 +11,9 @@ This application contains three pages:
 
 - Login: the user have to enter same credentials with which have been registered. If them are valid, the user will be able to press the Validate your personal data button and will be redirected to the next login phase. If the user press the Generate password button, the password will be generated and shown into the toast.
 <p align="center">
- <img src="https://github.com/irinajinar/OTP-System-FE/login-phase-one-preview.png">
+ <img src="https://github.com/irinajinar/OTP-System-FE/blob/main/login-phase-one-preview.png">
 </p>
+
 <p align="center">
  <img src="https://github.com/irinajinar/OTP-System-FE/login-phase-two-preview.png">
 </p>
